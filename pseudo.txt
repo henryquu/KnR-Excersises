@@ -1,0 +1,4 @@
+jesli ilosc spacji > 4
+    sprawdzic odleglosc do tab stopu
+        wieksza niz tab - \tab, + 4
+        mniejsza niz tab - ' ', +1
