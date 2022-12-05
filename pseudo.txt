@@ -1,5 +1,0 @@
-stawiam pointery na ostatnim znaku przed \0
-
-iteruje przez s 
-    jesli s jest \0 a t nie - return 0
-    jesli t = \0 - return 1
