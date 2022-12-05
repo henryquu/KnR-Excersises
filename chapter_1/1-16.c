@@ -10,7 +10,7 @@ void copy(char to[], char from[]);
 
 
 int main() {
-    int len, current; /* current line length */
+    int len; /* current line length */
     int max; /* maximum length seen so far */
     char line[MAXLINE]; /* current input line */
     char longest[MAXLINE]; /* longest line saved here */

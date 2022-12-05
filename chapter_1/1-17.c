@@ -10,9 +10,8 @@ void copy(char to[], char from[]);
 
 
 int main() {
-    int len, current; /* current line length */
+    int len; /* current line length */
     char line[MAXLINE]; /* current input line */
-    char longest[MAXLINE]; /* longest line saved here */
 
     while ((len  = getline(line, MAXLINE)) > 0)
         if (len > 80)

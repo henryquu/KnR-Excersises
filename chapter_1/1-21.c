@@ -5,6 +5,7 @@
 
 int main() {
     int c, i, j, spaces;
+
     i = 0;
     spaces = 0;
     while ((c = getchar()) != EOF) {

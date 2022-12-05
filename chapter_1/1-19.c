@@ -1,17 +1,17 @@
 #include <stdio.h>
 
 
-#define MAXLINE 1000 /* maximum input line length */
+#define MAXLINE 1000
 
 
 int getline(char line[], int maxline);
 void reverse(char c[], int i);
-/* print the longest input line */
+
 
 
 int main() {
-    int len, current; /* current line length */
-    char line[MAXLINE]; /* current input line */
+    int len;
+    char line[MAXLINE];
 
     while ((len  = getline(line, MAXLINE)) > 0){
         reverse(line, len - 1);

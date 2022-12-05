@@ -10,7 +10,7 @@ int remove_trail(char c[], int i);
 
 
 int main() {
-    int len, current; /* current line length */
+    int len; /* current line length */
     char line[MAXLINE]; /* current input line */
 
     while ((len  = getline(line, MAXLINE)) > 0)
