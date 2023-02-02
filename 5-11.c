@@ -11,13 +11,13 @@ int main(int argc, char **argv) {
 
 int detab(char **tabstops, int length) {
     int c, i, j, tabs, tab_sum;
-    char **start = tabstops;
+    char **start;
 
     if (length == 0) {
         char *x[] = {"7"};
         tabstops = x;
-        start = tabstops;
     }
+    start = tabstops;
 
     i = 0;
     j = 0;
@@ -55,7 +55,13 @@ int detab(char **tabstops, int length) {
 
 int entab(char **tabstops, int length) {
     int c, i, j, spaces, tabs;
-    char *start;
+    char **start;
+
+    if (length == 0) {
+        char *x[] = {"7"};
+        tabstops = x;
+    }
+    start = tabstops;
 
     i = 0;
     spaces = 0;
@@ -66,7 +72,7 @@ int entab(char **tabstops, int length) {
                 spaces++;
             }
 
-            tabs = *tabstops++ - '0';
+            tabs = **tabstops++ - '0';
             if (tabstops == NULL)
                     tabstops = start;
     
