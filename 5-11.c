@@ -6,7 +6,7 @@ int detab(char **, int);
 
 
 int main(int argc, char **argv) {
-    detab(++argv, argc - 1);
+    printf("%d\n", entab(++argv, argc - 1));
 }
 
 int detab(char **tabstops, int length) {
@@ -14,8 +14,9 @@ int detab(char **tabstops, int length) {
     char **start;
 
     if (length == 0) {
-        char *x[] = {"7"};
-        tabstops = x;
+        char x[] = {"7"};
+        *tabstops = x;
+        length = 1;
     }
     start = tabstops;
 
@@ -67,6 +68,9 @@ int entab(char **tabstops, int length) {
     spaces = 0;
     while ((c = getchar()) != EOF) {
         if (c == ' ') {
+            if (**tabstops > '9' || **tabstops < '0')
+                return -1;
+    
             while (c == ' ') {
                 c = getchar();
                 spaces++;
@@ -99,5 +103,10 @@ int entab(char **tabstops, int length) {
         i++;
         if (c == '\n')
             i = 0;
+
+        if (j == length) {
+            tabstops = start;
+            tab_sum = 0;
+        }
     }
 }
