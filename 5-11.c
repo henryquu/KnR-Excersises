@@ -61,11 +61,13 @@ int entab(char **tabstops, int length) {
     if (length == 0) {
         char *x[] = {"7"};
         tabstops = x;
+        length = 1;
     }
     start = tabstops;
 
     i = 0;
     spaces = 0;
+    int tab_index = 0;
     while ((c = getchar()) != EOF) {
         if (c == ' ') {
             if (**tabstops > '9' || **tabstops < '0')
@@ -77,8 +79,12 @@ int entab(char **tabstops, int length) {
             }
 
             tabs = **tabstops++ - '0';
-            if (tabstops == NULL)
-                    tabstops = start;
+            tab_index++;
+            
+            if (tab_index == length) {
+                tabstops = start;
+                tab_index = 0;
+            }
     
             for (j = 0; j < spaces;) {
                 if ((spaces >= j + 4) && ((tabs - i % tabs) >= 4)) {
@@ -103,10 +109,5 @@ int entab(char **tabstops, int length) {
         i++;
         if (c == '\n')
             i = 0;
-
-        if (j == length) {
-            tabstops = start;
-            tab_sum = 0;
         }
-    }
 }
