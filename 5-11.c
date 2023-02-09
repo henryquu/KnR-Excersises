@@ -6,71 +6,71 @@ int detab(char **, int);
 
 
 int main(int argc, char **argv) {
-    printf("%d\n", entab(++argv, argc - 1));
+    detab(++argv, argc - 1);
 }
 
-int detab(char **tabstops, int length) {
-    int c, i, j, tabs, tab_sum;
+int detab(char **tabs_list, int length) {
+    int c, out_index, current_tab, tab_sum;
     char **start;
 
     if (length == 0) {
         char x[] = {"7"};
-        *tabstops = x;
+        *tabs_list = x;
         length = 1;
     }
-    start = tabstops;
+    start = tabs_list;
 
-    i = 0;
-    j = 0;
+    out_index = 0;
     tab_sum = 0;
     while ((c = getchar()) != EOF) {
         if (c == '\t') {
-            if (**tabstops > '9' || **tabstops < '0')
+            if (**tabs_list > '9' || **tabs_list < '1')
                 return -1;
-            tabs = **tabstops++ - '0';
-            j++;
-            tab_sum += tabs;
+            
+            while (tab_sum <= out_index){
+                current_tab = **tabs_list++ - '0';
+                tab_sum += current_tab;
 
-            while ((i % tab_sum) != 0) {
+                if (tabs_list - length == start)
+                    tabs_list = start;
+            }
+                
+            while (out_index < tab_sum){
+                out_index++;
                 putchar(' ');
-                i++;
             }
 
-            if (j == length) {
-                tabstops = start;
-                tab_sum = 0;
-            }
+            
         }
         else {
             putchar(c);
-            i++;
+            out_index++;
             if (c == '\n') {
-                i = 0;
-                tabstops = start;
-                j = 0;
+                out_index = 0;
+                tabs_list = start;
                 tab_sum = 0;
             }
         }
     }
 }
 
-int entab(char **tabstops, int length) {
+int entab(char **tabs_list, int length) {
     int c, i, j, spaces, tabs;
     char **start;
 
     if (length == 0) {
         char *x[] = {"7"};
-        tabstops = x;
+        tabs_list = x;
         length = 1;
     }
-    start = tabstops;
+    start = tabs_list;
 
     i = 0;
     spaces = 0;
     int tab_index = 0;
     while ((c = getchar()) != EOF) {
         if (c == ' ') {
-            if (**tabstops > '9' || **tabstops < '0')
+            if (**tabs_list > '9' || **tabs_list < '0')
                 return -1;
     
             while (c == ' ') {
@@ -78,11 +78,11 @@ int entab(char **tabstops, int length) {
                 spaces++;
             }
 
-            tabs = **tabstops++ - '0';
+            tabs = **tabs_list++ - '0';
             tab_index++;
             
             if (tab_index == length) {
-                tabstops = start;
+                tabs_list = start;
                 tab_index = 0;
             }
     
