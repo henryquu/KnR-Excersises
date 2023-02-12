@@ -6,11 +6,11 @@ int detab(char **, int);
 
 
 int main(int argc, char **argv) {
-    detab(++argv, argc - 1);
+    entab(++argv, argc - 1);
 }
 
 int detab(char **tabs_list, int length) {
-    int c, out_index, current_tab, tab_sum;
+    int c, out_index, tab_sum;
     char **start;
 
     if (length == 0) {
@@ -28,8 +28,7 @@ int detab(char **tabs_list, int length) {
                 return -1;
             
             while (tab_sum <= out_index){
-                current_tab = **tabs_list++ - '0';
-                tab_sum += current_tab;
+                tab_sum += **tabs_list++ - '0';
 
                 if (tabs_list - length == start)
                     tabs_list = start;
@@ -39,8 +38,6 @@ int detab(char **tabs_list, int length) {
                 out_index++;
                 putchar(' ');
             }
-
-            
         }
         else {
             putchar(c);
@@ -55,7 +52,7 @@ int detab(char **tabs_list, int length) {
 }
 
 int entab(char **tabs_list, int length) {
-    int c, i, j, spaces, tabs;
+    int c, out_index, spaces, tab_sum;
     char **start;
 
     if (length == 0) {
@@ -65,49 +62,52 @@ int entab(char **tabs_list, int length) {
     }
     start = tabs_list;
 
-    i = 0;
-    spaces = 0;
-    int tab_index = 0;
+    out_index = 0;
+    tab_sum = 0;
     while ((c = getchar()) != EOF) {
         if (c == ' ') {
-            if (**tabs_list > '9' || **tabs_list < '0')
-                return -1;
-    
-            while (c == ' ') {
-                c = getchar();
+            spaces = 1;
+            while ((c = getchar()) == ' ') {
                 spaces++;
-            }
-
-            tabs = **tabs_list++ - '0';
-            tab_index++;
             
-            if (tab_index == length) {
-                tabs_list = start;
-                tab_index = 0;
-            }
-    
-            for (j = 0; j < spaces;) {
-                if ((spaces >= j + 4) && ((tabs - i % tabs) >= 4)) {
-                    printf("\\t");
-                    i += 4;
-                    j += 4;
-                    while ((i % tabs) != 0) {
-                        putchar(' ');
-                        i++;
-                        j++;
+                if (spaces + out_index >= tab_sum) {
+                    while (out_index + 4 <= tab_sum){
+                        printf("\\t");
+                        out_index += 4;
+                        spaces -= 4;
+                    }
+                    while (out_index < tab_sum){
+                        spaces--;
+                        out_index++;
+                        printf(" ");
+                    }
+                    while (tab_sum <= out_index){
+                        if (**tabs_list > '9' || **tabs_list < '0')
+                            return -1;
+
+                        tab_sum += **tabs_list++ - '0';
+                        if (tabs_list - length == start)
+                            tabs_list = start;
                     }
                 }
-                else {
-                    i++;
-                    j++;
-                    putchar(' ');
-                }
             }
-            spaces = 0;
+            while (spaces - 4 > 0){
+                printf("\\t");
+                out_index += 4;
+                spaces -= 4;
+            }
+            while (spaces > 0){
+                spaces--;
+                out_index++;
+                printf(" ");
+            }
         }
         putchar(c);
-        i++;
-        if (c == '\n')
-            i = 0;
+        out_index++;
+        if (c == '\n') {
+            out_index = 0;
+            tabs_list = start;
+            tab_sum = 0;
         }
+    }
 }
