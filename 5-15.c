@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     if (argc > 2 &strcmp(argv[2], "-r") == 0)
         reverse = 1;
 
-    if (argc > 2 &strcmp(argv[2], "-f") == 0)
+    if (argc > 2 &strcmp(argv[3], "-f") == 0)
         fold_case = 1;
 
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
