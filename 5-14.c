@@ -48,8 +48,7 @@ void qsort(void *v[], int left, int right, int (*comp)(void *, void *), int reve
         if (reverse == 0 && (*comp)(v[i], v[left]) < 0)
             swap(v, ++last, i);
         else if(reverse && (*comp)(v[i], v[left]) < 0)
-
-    swap(v, left, last);
+            swap(v, left, last);
     qsort(v, left, last - 1, comp, reverse);
     qsort(v, last + 1, right, comp, reverse);
 }
