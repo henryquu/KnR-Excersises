@@ -9,7 +9,8 @@ int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort(void *lineptr[], int left, int right,
            int (*comp)(void *, void *), int reverse);
-int numcmp(char *, char *);
+int numcmp(const char*, const char*);
+void swap(void *v[], int, int);
 
 int main(int argc, char *argv[]){
     int nlines;
@@ -53,7 +54,7 @@ void qsort(void *v[], int left, int right, int (*comp)(void *, void *), int reve
     qsort(v, last + 1, right, comp, reverse);
 }
 
-int numcmp(char *s1, char *s2){
+int numcmp(const char *s1, const char *s2){
     double v1, v2;
 
     v1 = atof(s1);
@@ -66,4 +67,3 @@ int numcmp(char *s1, char *s2){
     else
         return 0;
 }
-

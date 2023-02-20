@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAXLINES 5000
+#define CAPITAL_LETTER(a) (a >= 'A' && a <= 'Z')
 
 char *lineptr[MAXLINES];
 
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
-void qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *),
+void quick_sort(void *lineptr[], int left, int right, int (*comp)(void *, void *),
            int reverse, int fold_case);
-int numcmp(char *, char *);
+int numcmp(const char *, const char *);
+void swap(void *v[], int, int);
 
 int main(int argc, char *argv[]){
     int nlines;
@@ -27,7 +30,7 @@ int main(int argc, char *argv[]){
         fold_case = 1;
 
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-        qsort(
+        quick_sort(
             (void**) lineptr, 0, nlines - 1, 
             (int (*)(void*, void*))(numeric ? numcmp: strcmp), reverse, fold_case);
         writelines(lineptr, nlines);
@@ -39,10 +42,10 @@ int main(int argc, char *argv[]){
     }
 }
 
-void qsort(void *v[], int left, int right, int (*comp)(void *, void *), int reverse, int fold_case)
+void quick_sort(void *v[], int left, int right, int (*comp)(void *, void *), int reverse, int fold_case)
 {
     int i, last;
-    char folded1, folded2;
+    char *folded1, *folded2;
 
     if (left >= right)
         return;
@@ -51,18 +54,23 @@ void qsort(void *v[], int left, int right, int (*comp)(void *, void *), int reve
     last = left;
 
     for (i = left + 1; i <= right; i++){
-        folded1 = (v[i] >= 'A' && v[i] <= 'Z' && folded_case) ? v[i] + 'a' - 'A': v[i];
-        folded2 = (v[left] >= 'A' && v[left] <= 'Z' && folded_case) ? v[left] + 'a' - 'A': v[left];
+        strcpy(folded1, v[i]);
+        if (CAPITAL_LETTER(folded1[0]) && fold_case)
+            folded1[0] += 'a' - 'A';
+        strcpy(folded2, v[left]);
+        if (CAPITAL_LETTER(folded2[0]) && fold_case)
+            folded2[0] += 'a' - 'A';
+    
         if (reverse == 0 && (*comp)(folded1, folded2) < 0)
             swap(v, ++last, i);
         else if(reverse && (*comp)(folded1, folded2) < 0)
             swap(v, left, last);
     }
-    qsort(v, left, last - 1, comp, reverse, fold_case);
-    qsort(v, last + 1, right, comp, reverse, fold_case);
+    quick_sort(v, left, last - 1, comp, reverse, fold_case);
+    quick_sort(v, last + 1, right, comp, reverse, fold_case);
 }
 
-int numcmp(char *s1, char *s2){
+int numcmp(const char *s1, const char *s2){
     double v1, v2;
 
     v1 = atof(s1);
