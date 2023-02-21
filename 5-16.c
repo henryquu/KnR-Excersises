@@ -25,14 +25,15 @@ int main(int argc, char *argv[]){
     int directory = 0;
 
     for (int i = 0; i < argc; i++){
-    if (strcmp(argv[i], "-n") == 0)
-        numeric = 1;
-    else if (strcmp(argv[i], "-r") == 0)
-        reverse = 1;
-    else if (strcmp(argv[i], "-f") == 0)
-        fold = 1;
-    else if (strcmp(argv[i], "-d") == 0)
-        directory = 1;
+        if (strcmp(argv[i], "-n") == 0)
+            numeric = 1;
+        else if (strcmp(argv[i], "-r") == 0)
+            reverse = 1;
+        else if (strcmp(argv[i], "-d") == 0){
+            directory= 1;
+            if (argv[i][2] == 'f')
+                fold = 1;
+        }
     }
 
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]){
 }
 
 void quick_sort(void *v[], int left, int right, int (*comp)(void *, void *), 
-           int reverse, int fold, int directory)
+                int reverse, int fold, int directory)
 {
     int i, last;
     char *folded1, *folded2;
