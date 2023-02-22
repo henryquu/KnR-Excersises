@@ -79,9 +79,9 @@ void quick_sort(void *v[], int left, int right, int (*comp)(void *, void *),
 
         if (reverse == 0 && (*comp)(folded1, folded2) < 0)
             swap(v, ++last, i);
-        else if(reverse && (*comp)(folded1, folded2) < 0)
+        else if(reverse && (*comp)(folded1, folded2) > 0)
             swap(v, left, last);
     }
-    quick_sort(v, left, last - 1, comp, reverse, fold, reverse);
-    quick_sort(v, last + 1, right, comp, reverse, fold, reverse);
+    quick_sort(v, left, last - 1, comp, reverse, fold, directory);
+    quick_sort(v, last + 1, right, comp, reverse, fold, directory);
 }
