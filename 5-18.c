@@ -4,13 +4,14 @@
 
 #define MAXTOKEN 100
 
-enum { NAME, PARENS, BRACKETS };
+enum { NAME, PARENS, BRACKETS};
 
 void dcl(void);
 void dirdcl(void);
 int gettoken(void);
 int getch(void);
 void ungetch(int);
+void clearch(void);
 
 int tokentype; 
 char token[MAXTOKEN];
@@ -26,9 +27,12 @@ int main() {
 
         dcl();
 
-        if (tokentype != '\n')
+        if (tokentype != '\n'){
             printf("syntax error\n");
-        printf("%s: %s %s\n", name, out, datatype);
+            clearch();
+        }
+        else
+            printf("%s: %s %s\n", name, out, datatype);
     }
     return 0;
 }
@@ -113,4 +117,10 @@ void ungetch(int c){
         printf("ungetch: too many characters\n");
     else
         buf[bufp++] = c;
+}
+
+void clearch(void){
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF);
+    bufp = 0;
 }
