@@ -96,7 +96,7 @@ int gettoken(void){
         return tokentype = BRACKETS;
     } 
     else if (isalpha(c)) {
-        for (*p++ = c; isalnum(c = getch()); )
+        for (*p++ = c; isalnum(c = getch()) || c == ' '; )
             *p++ = c;
         *p = '\0';
         ungetch(c);
