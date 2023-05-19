@@ -49,10 +49,10 @@ def create_files(prefix: str, suffix: str, number: int):
 
     Returns: void
     """
-    print(f"Creating {number} files with format {prefix}NUMBER{suffix}!\n")
+    print(f"Creating {number} files with format {prefix}NUMBER{suffix}\n")
 
     for number in range(1, number + 1):
-        with open(prefix + number + suffix, "w"):
+        with open(prefix + str(number) + suffix, "w"):
             pass
 
 
@@ -61,8 +61,8 @@ def main():
             "Create files - create\n"\
             "Delete files - delete\n"
 
-    chapter = 5
-    exercises_count = 20
+    chapter = 6
+    exercises_count = 6
     match input(message):
         case "move":
             move_files(str(chapter), ".c", "chapter_" + str(chapter))
