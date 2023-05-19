@@ -1,13 +1,11 @@
-import os
 from pathlib import Path
 
-chapter = "4"
+chapter = "5"
 
-path = os.path.abspath(os.getcwd())
-moving_to = path + f"/chapter_{chapter}/"
+moving_to = Path(f"chapter_{chapter}/")
+moving_to.mkdir()
 
-files = os.listdir(path)
-
-for file in files:
-    if file.startswith(chapter) and file.endswith(".c") and file.startswith(chapter):
-        Path(path + "/" + file).rename(moving_to + file)
+for file in Path(".").iterdir():
+    if file.name[0] == chapter and file.suffix == ".c":
+        file.rename(Path(".") / moving_to / file.name)
+        
