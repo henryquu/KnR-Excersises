@@ -3,7 +3,7 @@
 #include "../utils.c"
 
 int getword(char *word, int lim){
-    int c;
+    int c, prev;
     char *w = word;
 
     while (isspace(c = getch()))
@@ -13,6 +13,21 @@ int getword(char *word, int lim){
         *w++ = c;
 
     if (!isalpha(c)) {
+        prev = c;
+
+        if (c == '/' && (c = getch() == '*'))
+            while (c != '*' && (c = getch()) != '/')
+                ;
+        else if (c == '_')
+            while ((c = getch()) != ' ' || c != '\n' || c != EOF)
+                ;
+        else if (c == '#')
+            while ((c = getch()) != '\n' || prev == '/')
+                prev = c;
+        else if (c == '"')
+            while ((c = getch()) != '"')
+                ;
+
         *w = '\0';
         return c;
     }
