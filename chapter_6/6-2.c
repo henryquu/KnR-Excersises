@@ -27,8 +27,11 @@ int main(int argc, char **argv){
     char word[MAXWORD];
 
     int width = 6;
-    if (argc > 1)
+    if (argc > 1){
+        if (!isdigit(argv[1][0]))
+            return -1;
         width = (int) (argv[1][0] - '0');
+    }
 
     while (getword(word, MAXWORD) != EOF)
         if (isalpha(word[0]))
