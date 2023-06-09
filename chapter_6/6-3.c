@@ -46,7 +46,7 @@ int main(int argc, char **argv){
     }
     
     // line counting variable
-    int line = 0;
+    int line = 1;
     // variable for new line checking
     char output;
     while ((output = getword(word, MAXWORD, file)) != EOF)
@@ -80,20 +80,23 @@ struct node *addtree(struct node *p, char *w, int line){
         const char *ww = w;
         p->word = strdup(ww);
         p->lines = new;
+        //printf("NUMER 1   %s %d\n", p->word, line);
         p->left = p->right = NULL;
     }
     // updating leaf lines list 
     else if ((cond = strcmp(w, p->word)) == 0){
         // go to the end of the list
-        while ((p->lines = p->lines->next))
-        ;
+        new = p->lines;
+        while (new->next){
+            //printf("%s %d\n", p->word, line);
+            (new = new->next);   
+        }
+        
         // create a new structure
-        new = malloc(sizeof(struct list));
+        new->next = malloc(sizeof(struct list));
+        new = new->next;
         new->val = line;
         new->next = NULL;
-
-        // assigning new value to leaf
-        p->lines = new;
     }
     // word should be on the left of the current leaf
     else if (cond < 0)
@@ -116,9 +119,10 @@ void group_print(struct node *p, char *prev){
         printf("%s:", p->word);
         // tmp struct object for deletion
         struct list *previous_line = p->lines;
+
         // itereate over list of lines, print and delete them
         while (p->lines){
-            printf(" %d", *p->lines);
+            printf(" %d", p->lines->val);
             p->lines = p->lines->next;
             free(previous_line);
             previous_line = p->lines;
@@ -143,15 +147,14 @@ int getword(char *word, int lim, FILE *file){
     int c, prev;
     char *w = word;
 
+    // skip white-spaces not including new-line
     while (isspace(c = getch(file)))
-    ;
+        if (c == '\n')
+            return c;
 
     if (c != EOF)
         *w++ = c;
-
-    if (c == '\n')
-        return c;
-
+    
     if (!isalpha(c)) {
         prev = c;
 
