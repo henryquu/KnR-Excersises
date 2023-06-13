@@ -45,7 +45,7 @@ int main(int argc, char **argv){
 
 struct node *addtree(struct node *p, char *w){
     int cond;
-
+    
     if (p == NULL) {
         p = talloc();
         const char *ww = w;
