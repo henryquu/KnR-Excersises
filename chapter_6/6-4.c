@@ -15,10 +15,15 @@ frequency of occurrence. Precede each word by its count.
 #define MAXWORD 100
 
 
+// adds word to word list, returns head pointer
 struct word *add_word(struct word *, char *);
+// prints and delets word list
 void print_delete(struct word *);
+// get word from input
 int getword(char *, int);
-struct word *talloc(void);
+// return ptr to new default word structure
+struct word *talloc(const char *);
+// sort word list
 void sort_list(struct word *);
 
 
@@ -68,22 +73,14 @@ void print_delete(struct word *p){
 
 // adds word if not in list, otherwise increases it's count
 struct word *add_word(struct word *root, char *w){
-    if (root == NULL){
-        // creaate new word structure
-        root = talloc();
-        const char *ww = w;
-
-        // copying data
-        root->word = strdup(ww);
-        root->count = 1;
-        root->next = NULL;
-    }
+    if (root == NULL)
+        root = talloc(w);
     else{
         // struct used for searching
         struct word *tmp = root;
         // comparing word in structure with word w
         int cond = 1;
-        
+
         // go through linked list until end or word found
         while (tmp->next && (cond = strcmp(w, tmp->word)))
             tmp = tmp->next;
@@ -92,23 +89,23 @@ struct word *add_word(struct word *root, char *w){
         if (cond == 0)
             tmp->count++;
         //reached end of the list
-        else{
-            tmp->next = talloc();
-            const char *ww = w;
-
-            // copying data
-            tmp->word = strdup(ww);
-            tmp->count = 1;
-            tmp->next = NULL;
-        }
+        else
+            tmp->next = talloc(w);
     }
 
     return root;
 }
 
 // allocate memory for word structure
-struct word *talloc(void){
-    return (struct word *) malloc(sizeof(struct word));
+struct word *talloc(const char *word){
+    struct word *ptr = malloc(sizeof(struct word));
+
+    // copying data
+    ptr->word = strdup(word);
+    ptr->count = 1;
+    ptr->next = NULL;
+
+    return ptr;
 }
 
 
