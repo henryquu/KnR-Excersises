@@ -46,15 +46,46 @@ int main(){
             root = add_word(root, word);
     
     // print the list
-    if (root)
+    if (root){
+        sort_list(root);
         print_delete(root);
+    }
 
     return 0;
 }
 
 // sort the linked list
-void sort_list(struct word *){
+void sort_list(struct word *root){
+    if (!root)
+        return;
 
+    struct word *ptr;
+
+    char *word_tmp;
+    int count_tmp;
+
+    int changed = 1;
+    while (changed){
+        changed = 0;
+        ptr = root;
+
+        while (ptr && ptr->next){
+            if (ptr->next->count > ptr->count){
+                word_tmp = ptr->next->word;
+                count_tmp = ptr->next->count;
+
+                ptr->next->word = ptr->word;
+                ptr->next->count = ptr->count;
+
+                ptr->word = word_tmp;
+                ptr->count = count_tmp;
+
+                changed = 1;
+            }
+
+            ptr = ptr->next;
+        }
+    }
 }
 
 // print and delete word structures
