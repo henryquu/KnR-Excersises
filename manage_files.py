@@ -61,8 +61,8 @@ def main():
             "Create files - create\n"\
             "Delete files - delete\n"
 
-    chapter = 6
-    exercises_count = 6
+    chapter = 7
+    exercises_count = 8
     match input(message):
         case "move":
             move_files(str(chapter), ".c", "chapter_" + str(chapter))
